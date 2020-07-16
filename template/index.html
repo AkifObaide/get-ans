@@ -1,0 +1,104 @@
+<html>
+<head>
+<style>
+.div-continer{
+	padding:0px;
+	margin:0px;
+	height:60px;
+	border:0.5px solid black;
+}
+.h2s{
+	display:inline;
+}
+#h2s{
+	margin-left:465px;
+}
+.question{
+	height:35px;
+	width:35px;
+	position:absolute;
+	right:0.1px;
+	cursor:pointer;
+}
+
+.anss{
+	height:35px;
+        width:35px;
+	position:absolute;
+        right:40px;
+	cursor:pointer;
+}
+.main-continer{
+	border:1px dashed green;
+	width:550px;
+}
+
+#btn-rm-ans{
+	height:50px;
+	width:80px;
+	background-color:#00ff33;
+	display:inline;
+}
+#input-ans{
+	display:none;
+}
+</style>
+</head>
+<body style="margin:0px;padding:0px; background-color:aqua;">
+	<div class="div-continer">
+		<h2 class="h2s">point : <h2 class="h2s" id="g">{{point}}</h2></h2>
+		<script>
+		let numbers=['0','1','2','3','4','5','6','7','8','9']
+		let h2 =document.querySelector("#g").innerText;
+		let poi='0';
+		for (let x=0; x<h2.length; x++){
+			if(h2.slice(x,x+1)){
+				let txt=h2.slice(x,x+1)
+				let ch=numbers.includes(h2.slice(x,x+1));
+			if(ch){
+				let send=h2.slice(x,x+1);
+				poi+=send;
+			}else{
+				
+			}
+			}
+		}		
+		document.querySelector("#g").innerText=parseInt(poi);
+		</script>
+		<h2 class="h2s" id="h2s"></h2>
+		<script>
+		let input=document.querySelector("#h2s");
+		now=new Date();
+		year=now.getFullYear();
+		month=now.getMonth();
+		day=now.getDate();
+		res=year+"/"+month+"/"+day;
+		input.innerText=res;
+		</script>
+		<h2 class="h2s" id="h2s">{{name}}</h2>
+
+	</div>
+	<form style="display:inline;" action="/my-answers" method="POST">
+                <button type="submit" style="outline:none;height:0px; width:0px; background-color:aqua; border:none;">
+                        <input value="{{name}}" style="display:none;" name="name"/>
+	</form>
+	<img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fmicrosoft-clipart-question-mark-1.png&f=1&nofb=1" class="anss"/>
+	<form action="/new-question" method="POST">
+		<button type="submit" style="outline:none;height:0px; width:0px; background-color:aqua; border:none;">
+			<input value="{{name}}" style="display:none;" name="name"/>
+<img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.nationalbeefleather.com%2Fmedia%2F1092%2Fwhite_question_mark.png&f=1&nofb=1" class="question"/>
+		</button>
+	</form>
+	<br><br>
+	{% for item in asks %}
+		<div class="main-continer">
+			<h2>username :{{item[0]}}</h2>
+			<h2>question :{{item[1]}}</h2>
+			<form style="display:inline-block;" action="answer" method="POST"><input value="{{item[0]}}" name="ques-name" style="display:none;"/><input value="{{item[1]}}" name="question" style="display:none;"/><input value="{{name}}" id="input-ans" name="username"/><button id="btn-rm-ans" type="submit">Answer</button>
+			</form>
+	</div>
+<br>
+		{%endfor%}
+</body>
+</html>
+
